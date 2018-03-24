@@ -52,4 +52,10 @@ class Tractor extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PlotTractor::className(), ['tractor_id' => 'id']);
     }
+
+    public function createTractor($name)
+    {
+        $this->name = $name;
+        return $this->save() ? $this : null;
+    }
 }

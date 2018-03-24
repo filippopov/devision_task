@@ -57,4 +57,12 @@ class Plot extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PlotTractor::className(), ['plot_id' => 'id']);
     }
+
+    public function createPlot(string $name, string $crops, float $area)
+    {
+        $this->name = $name;
+        $this->crops = $crops;
+        $this->area = $area;
+        return $this->save() ? $this : null;
+    }
 }

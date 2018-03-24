@@ -12,6 +12,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'FlashMessage' => [
+            'class' => 'app\components\FlashMessage',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'xeqTadVP8F6vMPU0MJH2JRKENM5mbdZR',
@@ -49,11 +52,13 @@ $config = [
             'showScriptName' => false,
             // Disable r= routes
             'enablePrettyUrl' => true,
-            'rules' => array(
+            'rules' => [
+                'application/createTractor' => 'application/create-tractor',
+                'application/createPlot' => 'application/create-plot',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            ),
+            ],
         ],
     ],
     'params' => $params,
