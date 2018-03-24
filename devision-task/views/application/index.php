@@ -5,8 +5,9 @@ $this->title = 'application';
 $this->params['breadcrumbs'][] = $this->title;
 $messageKeys = [
     'createTractor',
-    'createPlot'
-]
+    'createPlot',
+    'plotTractorData'
+];
 ?>
 
 <?php foreach ($messageKeys as $value) : ?>
@@ -21,6 +22,11 @@ $messageKeys = [
 <div class="container">
     <div class="row">
         <?= Html::a('Create Tractor', ['application/createTractor'], ['class' => 'profile-link']) ?>
+        <br>
         <?= Html::a('Create Plot', ['application/createPlot'], ['class' => 'profile-link']) ?>
+        <br>
+        <?= Html::a('Treated Parcel', ['application/treatedParcel'], ['class' => 'profile-link']) ?>
+        <br>
+        <?= Html::a('Treated Parcel', ['application/treatedParcelData'], ['class' => 'profile-link']) ?>
     </div>
 </div>

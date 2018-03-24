@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "plots".
@@ -64,5 +66,17 @@ class Plot extends \yii\db\ActiveRecord
         $this->crops = $crops;
         $this->area = $area;
         return $this->save() ? $this : null;
+    }
+
+    public static function getPlotsInfoDropDown()
+    {
+         $data = (new Query())->select([
+            'p.id',
+            'CONCAT(\'Name: \', p.name, \' Crops: \', p.crops, \' Max Area: \', p.area) info'
+        ])
+            ->from('plots p')
+            ->all();
+
+        return ArrayHelper::map($data, 'id', 'info');
     }
 }

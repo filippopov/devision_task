@@ -4,10 +4,14 @@ namespace app\controllers;
 
 use app\models\Plot;
 use app\models\PlotForm;
+use app\models\PlotTractor;
 use app\models\Tractor;
 use app\models\TractorForm;
+use app\models\TreatedParcelForm;
+use app\models\TreatedParcelSearch;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 
@@ -68,6 +72,38 @@ class ApplicationController extends Controller
 
         return $this->render('createPlot', [
             'model' => $model
+        ]);
+    }
+
+    public function actionTreatedParcel()
+    {
+        $allTractors = ArrayHelper::map(Tractor::find()->asArray()->all(), 'id', 'name');
+        $allPlots = Plot::getPlotsInfoDropDown();
+
+        $model = new TreatedParcelForm();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->date = Yii::$app->formatter->asDatetime($model->date, 'php:Y-m-d H:i:s');
+            if ($model->addData(new PlotTractor())) {
+                Yii::$app->FlashMessage->setMessage('plotTractorData', 'Successfully add application data');
+                $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('treatedParcel', [
+            'model' => $model,
+            'allTractors' => $allTractors,
+            'allPlots' => $allPlots
+        ]);
+    }
+
+    public function actionTreatedParcelData()
+    {
+        $searchModel = new TreatedParcelSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('treatedParcelData', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 }

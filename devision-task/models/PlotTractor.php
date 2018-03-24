@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Faker\Provider\zh_CN\DateTime;
 use Yii;
 
 /**
@@ -68,5 +69,14 @@ class PlotTractor extends \yii\db\ActiveRecord
     public function getTractor()
     {
         return $this->hasOne(Tractor::className(), ['id' => 'tractor_id']);
+    }
+
+    public function addData(int $plotId, int $tractorId, float $area, string $date)
+    {
+        $this->plot_id = $plotId;
+        $this->tractor_id = $tractorId;
+        $this->area = $area;
+        $this->date = $date;
+        return $this->save() ? $this : null;
     }
 }
