@@ -11,25 +11,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'showFooter' => true,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            [
-                'label' => 'Plot Name',
-                'attribute' => 'plot_id',
-                'value' => 'plot.name'
-            ],
-            [
-                'label' => 'Tractor Name',
-                'attribute' => 'tractor_id',
-                'value' => 'tractor.name'
-            ],
-            [
-                'label' => 'Crops',
-                'attribute' => 'plot_id',
-                'value' => 'plot.crops'
-            ],
-            'area',
+            'plotName',
+            'plotCrops',
+            'tractorName',
             'date',
+            [
+                'attribute' => 'area',
+                'footer' => 'Sum Area: ' . $areaSum
+            ]
         ],
     ]); ?>
 </div>

@@ -11,16 +11,18 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\db\Query;
 
 class TreatedParcelSearch extends PlotTractor
 {
+    public $tractorName;
+    public $plotName;
+    public $plotCrops;
+
     public function rules()
     {
         return [
-            [['tractor_id, plot_id', 'id', 'area'], 'safe'],
-            [['area'], 'number'],
-            [['date'], 'date']
+            [['tractor_id, plot_id', 'id', 'date', 'crops', 'tractorName', 'plotName', 'plotCrops'], 'safe'],
+            [['area'], 'number']
         ];
     }
 
@@ -31,13 +33,28 @@ class TreatedParcelSearch extends PlotTractor
 
     public function search($params)
     {
-        $query = PlotTractor::find();
-        $query->joinWith('tractor');
-        $query->joinWith('plot');
+        $query = PlotTractor::find()
+            ->joinWith('tractor')
+            ->joinWith('plot');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['tractorName'] = [
+            'asc' => ['tractors.name' => SORT_ASC],
+            'desc' => ['tractors.name' => SORT_DESC]
+        ];
+
+        $dataProvider->sort->attributes['plotName'] = [
+            'asc' => ['plots.name' => SORT_ASC],
+            'desc' => ['plots.name' => SORT_DESC]
+        ];
+
+        $dataProvider->sort->attributes['plotCrops'] = [
+            'asc' => ['plots.crops' => SORT_ASC],
+            'desc' => ['plots.crops' => SORT_DESC]
+        ];
 
         $this->load($params);
         if (!$this->validate()) {
@@ -45,14 +62,24 @@ class TreatedParcelSearch extends PlotTractor
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'date' => $this->date
+            'plot_tractor.date' => $this->date,
+            'plot_tractor.area' => $this->area,
         ]);
 
-        $query->andFilterWhere(['like', 'tractor.name', $this->tractor_id])
-            ->andFilterWhere(['like', 'plot.name', $this->plot_id])
-            ->andFilterWhere(['like', 'plot.crops', $this->plot_id]);
+        $query->andFilterWhere(['like', 'tractors.name', $this->tractorName])
+            ->andFilterWhere(['like', 'plots.name', $this->plotName])
+            ->andFilterWhere(['like', 'plots.crops', $this->plotCrops]);
 
         return $dataProvider;
+    }
+
+    public function getTotalArea($provider)
+    {
+        $total = 0;
+        foreach ($provider as $item) {
+            $total += $item['area'];
+        }
+
+        return $total;
     }
 }

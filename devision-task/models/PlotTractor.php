@@ -71,6 +71,21 @@ class PlotTractor extends \yii\db\ActiveRecord
         return $this->hasOne(Tractor::className(), ['id' => 'tractor_id']);
     }
 
+    public function getTractorName()
+    {
+        return $this->tractor->name;
+    }
+
+    public function getPlotName()
+    {
+        return $this->plot->name;
+    }
+
+    public function getPlotCrops()
+    {
+        return $this->plot->crops;
+    }
+
     public function addData(int $plotId, int $tractorId, float $area, string $date)
     {
         $this->plot_id = $plotId;

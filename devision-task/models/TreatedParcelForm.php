@@ -10,13 +10,11 @@ namespace app\models;
 
 use app\components\AreaValidation;
 use app\components\FloatValidator;
-use Faker\Provider\zh_CN\DateTime;
 use Yii;
 use yii\base\Model;
 
 class TreatedParcelForm extends Model
 {
-
     public $plotId;
     public $tractorId;
     public $date;
@@ -28,7 +26,7 @@ class TreatedParcelForm extends Model
             ['plotId', 'required'],
             ['tractorId', 'required'],
             ['date', 'required'],
-            [['date'], 'date', 'format' => 'php:Y-m-d H:i:s', 'min' => (new \DateTime('now'))->format('Y-m-d H:i:s')],
+            [['date'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             ['area', 'required'],
             ['area', FloatValidator::className()],
             ['area', AreaValidation::className()]

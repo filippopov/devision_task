@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(); ?>
-            <?= $form->errorSummary($model, ['header' => '']);?>
             <?= $form->field($model, 'plotId')->label('Plot Data')->dropDownList($allPlots, ['prompt' => '-- Please select --']) ?>
             <?= $form->field($model, 'tractorId')->label('Tractor name')->dropDownList($allTractors, ['prompt' => '-- Please select --']) ?>
             <?= $form->field($model, 'area')->textInput(['type' => 'number', 'step' => 'any']) ?>

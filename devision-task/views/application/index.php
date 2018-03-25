@@ -27,6 +27,6 @@ $messageKeys = [
         <br>
         <?= Html::a('Treated Parcel', ['application/treatedParcel'], ['class' => 'profile-link']) ?>
         <br>
-        <?= Html::a('Treated Parcel', ['application/treatedParcelData'], ['class' => 'profile-link']) ?>
+        <?= Html::a('Treated Parcel Data', ['application/treatedParcelData'], ['class' => 'profile-link']) ?>
     </div>
 </div>

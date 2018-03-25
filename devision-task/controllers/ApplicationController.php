@@ -28,10 +28,10 @@ class ApplicationController extends Controller
                 'denyCallback' => function ($rule, $action) {
                     return $this->goHome();
                 },
-                'only' => ['index', 'create-tractor', 'create-plot'],
+                'only' => ['index', 'create-tractor', 'create-plot', 'treated-parcel-data'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create-tractor', 'create-plot'],
+                        'actions' => ['index', 'create-tractor', 'create-plot', 'treated-parcel-data'],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -100,10 +100,12 @@ class ApplicationController extends Controller
     {
         $searchModel = new TreatedParcelSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $areaSum = $searchModel->getTotalArea($dataProvider->models);
 
         return $this->render('treatedParcelData', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'areaSum' => $areaSum
         ]);
     }
 }
